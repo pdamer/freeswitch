@@ -4,7 +4,7 @@ MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
 ENV REFRESHED_AT 2014-11-24
 
 RUN yum update --quiet -y
-RUN yum install --quiet -y libedit sox zlib bzip2 which postgresql-libs expat compat-expat1 libjpeg-turbo libvorbis speex unixODBC git
+RUN yum install --quiet -y libedit sox zlib tar bzip2 which postgresql-libs expat compat-expat1 libjpeg-turbo libvorbis speex unixODBC git
 
 RUN git clone https://github.com/webitel/freeswitch.git /tmp/fs \
 	&& mv /tmp/fs/conf /conf \
