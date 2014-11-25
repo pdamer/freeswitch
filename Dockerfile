@@ -1,4 +1,4 @@
-# Version: 0.0.6
+# Version: 0.0.7
 FROM centos:centos6
 MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
 
