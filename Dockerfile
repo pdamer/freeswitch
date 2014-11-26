@@ -7,7 +7,7 @@ RUN yum update --quiet -y \
 	&& git clone https://github.com/webitel/freeswitch.git /tmp/fs \
 	&& mv /tmp/fs/conf /conf \
 	&& rm -rf /tmp/fs \
-	&& curl -SL "http://builds.webitel.com/3.0/fs.tgz" -o /tmp/fs.tgz \
+	&& curl -SL "http://builds.webitel.com/3.0/fs_master.tgz" -o /tmp/fs.tgz \
 	&& cd /usr/local \
 	&& tar xzvf /tmp/fs.tgz \
 	&& rm -rf /tmp/fs.tgz
