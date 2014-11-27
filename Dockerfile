@@ -22,4 +22,4 @@ RUN apt-get -y --quiet update && apt-get -y --quiet install freeswitch freeswitc
 
 VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf"]
 
-ENTRYPOINT ["/usr/bin/freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db"]
+ENTRYPOINT ["/usr/bin/freeswitch", "-c", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db"]
