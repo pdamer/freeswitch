@@ -18,7 +18,7 @@ RUN apt-get -y --quiet update && apt-get -y --quiet install freeswitch freeswitc
 	freeswitch-mod-dptools freeswitch-mod-expr freeswitch-mod-say-en freeswitch-mod-fifo freeswitch-mod-event-multicast \
 	freeswitch-mod-rtmp freeswitch-mod-rtc freeswitch-mod-verto freeswitch-mod-shout freeswitch-mod-shell-stream \
 	freeswitch-mod-spy freeswitch-mod-xml-cdr freeswitch-mod-cdr-mongodb freeswitch-mod-callcenter \
-	freeswitch-mod-lcr freeswitch-mod-blacklist
+	freeswitch-mod-lcr freeswitch-mod-blacklist && apt-get clean
 
 VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf"]
 
