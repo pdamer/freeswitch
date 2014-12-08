@@ -1,13 +1,11 @@
 FROM debian:wheezy 
 MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
 
-RUN echo 'deb http://ftp.us.debian.org/debian/ wheezy main' >> /etc/apt/sources.list &&\
-	echo 'deb http://security.debian.org/ wheezy/updates main' >> /etc/apt/sources.list &&\
-	apt-get -y --quiet update && apt-get -y --quiet upgrade && apt-get -y --quiet install git curl &&\
+RUN apt-get -y --quiet update && apt-get -y --quiet upgrade && apt-get -y --quiet install git curl &&\
 	echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list &&\
 	curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - &&\
 	git clone https://github.com/webitel/freeswitch.git /tmp/fs &&\
-	mv /tmp/fs/conf /conf && rm -rf /tmp/fs
+	mv /tmp/fs/conf /conf && rm -rf /tmp/fs && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y --quiet update && apt-get -y --quiet install freeswitch freeswitch-mod-commands freeswitch-mod-conference  \
 	freeswitch-mod-curl freeswitch-mod-db freeswitch-mod-dialplan-xml freeswitch-mod-event-socket freeswitch-mod-hash \
