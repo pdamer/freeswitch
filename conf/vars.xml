@@ -4,33 +4,10 @@
   <X-PRE-PROCESS cmd="set" data="sound_prefix=$${sounds_dir}/ru/RU/elena"/>
   <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://default"/>
   <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
-  <X-PRE-PROCESS cmd="set" data="global_codec_prefs=OPUS,iLBC,isac,PCMU,PCMA,GSM,VP8"/>
-  <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=iLBC,PCMU,PCMA,GSM"/>
-  <X-PRE-PROCESS cmd="set" data="webitel_url=http://127.0.0.1:4002/"/>
-
-  <!-- various debug and defaults -->
+  <X-PRE-PROCESS cmd="set" data="global_codec_prefs=OPUS,isac,G722,PCMA,PCMU,GSM,VP8"/>
+  <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=PCMA,PCMU,GSM"/>
+  <X-PRE-PROCESS cmd="set" data="webitel_url=http://$${local_ip_v4}:10025/"/>
   <X-PRE-PROCESS cmd="set" data="call_debug=false"/>
-  <X-PRE-PROCESS cmd="set" data="console_loglevel=all"/>
-
-  <!-- external_rtp_ip
-       Can be an one of:
-           ip address: "12.34.56.78"
-           a stun server lookup: "stun:stun.server.com"
-           a DNS name: "host:host.server.com"
-       where fs.mydomain.com is a DNS A record-useful when fs is on
-       a dynamic IP address, and uses a dynamic DNS updater.
-       If unspecified, the bind_server_ip value is used.
-  -->
-  <!-- external_sip_ip
-      Used as the public IP address for SDP.
-       Can be an one of:
-           ip address: "12.34.56.78"
-           a stun server lookup: "stun:stun.server.com"
-           a DNS name: "host:host.server.com"
-       where fs.mydomain.com is a DNS A record-useful when fs is on
-       a dynamic IP address, and uses a dynamic DNS updater.
-       If unspecified, the bind_server_ip value is used.
-  -->
 
   <X-PRE-PROCESS cmd="set" data="bind_server_ip=auto"/>
   <X-PRE-PROCESS cmd="set" data="external_rtp_ip=auto-nat"/>
