@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<document type="freeswitch/xml">
+  <X-PRE-PROCESS cmd="include" data="vars.xml" />
+
+  <!-- CONFIGURATIONS -->
+  <section name="configuration" description="Webitel FreeSWITCH Configurations">
+    <configuration name="switch.conf" description="Core Configuration">
+      <settings>
+        <param name="switchname" value="collaboration" />
+        <param name="core-db-dsn" value="pgsql://hostaddr=$${local_ip_v4} dbname=postgres user=postgres password=docker options='-c client_min_messages=NOTICE'" />
+      </settings>
+    </configuration>
+    <configuration name="console.conf" description="Console Logger">
+      <mappings>
+        <map name="all" value="console,debug,info,notice,warning,err,crit,alert" />
+    <map name="all"                         value="warning,err,crit,alert"/>
+    <map name="zap_analog.c"                value="all"/>
+    <map name="zap_io.c"                    value="all"/>
+    <map name="zap_isdn.c"                  value="all"/>
+    <map name="zap_zt.c"                    value="all"/>
+    <map name="mod_openzap"                 value="all"/>
+    <map name="sofia.c"                     value="notice"/>
+    <map name="switch_core_state_machine.c" value="all"/>      
+      </mappings>
+      <settings>
+        <param name="colorize" value="true" />
+        <param name="loglevel" value="$${console_loglevel}" />
+      </settings>
+    </configuration>
+    <configuration name="logfile.conf" description="File Logging">
+      <settings>
+        <param name="rotate-on-hup" value="true" />
+      </settings>
+      <profiles>
+        <profile name="default">
+          <settings>
+            <param name="rollover" value="52428800" />
+            <param name="maximum-rotate" value="10" />
+            <param name="uuid" value="true" />
+          </settings>
+          <mappings>
+            <map name="all" value="debug,info,notice,warning,err,crit,alert" />
+          </mappings>
+        </profile>
+      </profiles>
+    </configuration>
+    <configuration name="xml_curl.conf" description="cURL XML Gateway">
+      <bindings>
+        <binding name="Directory">
+          <param name="gateway-url" value="$${webitel_url}" bindings="directory" />
+        </binding>
+        <binding name="Dialplan">
+          <param name="gateway-url" value="$${webitel_url}" bindings="dialplan" />
+        </binding>
+        <binding name="Configuration">
+          <param name="gateway-url" value="$${webitel_url}" bindings="configuration" />
+        </binding>
+        <binding name="Phrases">
+        <param name="gateway-url" value="${webitel_url}" bindings="phrases" />
+   	</binding>
+      </bindings>
+    </configuration>
+    <configuration name="modules.conf" description="Modules">
+      <modules>
+        <load module="mod_console" />
+        <load module="mod_xml_curl" />
+      </modules>
+    </configuration>
+  </section>
+</document>
