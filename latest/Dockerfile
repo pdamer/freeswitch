@@ -5,7 +5,7 @@ COPY conf /conf
 
 RUN apt-get -y --quiet update \
 	&& apt-get -y --quiet upgrade \
-	&& apt-get -y --quiet install curl \
+	&& apt-get -y --quiet install curl libmp3lame0 lame \
 	&& echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
