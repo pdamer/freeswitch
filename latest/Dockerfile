@@ -55,6 +55,6 @@ RUN apt-get -y --quiet update \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings"]
+VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts"]
 
-ENTRYPOINT ["/usr/bin/freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db", "-recordings", "/recordings"]
+ENTRYPOINT ["/usr/bin/freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db", "-recordings", "/recordings", "-scripts", "/scripts"]
