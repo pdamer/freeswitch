@@ -20,6 +20,7 @@ RUN apt-get -y --quiet update \
 	freeswitch-mod-cdr-mongodb \
 	freeswitch-mod-event-socket \
 	freeswitch-mod-event-multicast \
+	freeswitch-mod-event-zmq \
 	freeswitch-mod-hash \
 	freeswitch-mod-http-cache \
 	freeswitch-mod-local-stream \
