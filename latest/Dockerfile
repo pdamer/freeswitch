@@ -5,11 +5,14 @@ COPY conf /conf
 
 RUN apt-get -y --quiet update \
 	&& apt-get -y --quiet upgrade \
-	&& apt-get -y --quiet install curl libmp3lame0 lame \
+	&& apt-get -y --quiet install curl \
 	&& echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
+	&& echo 'deb http://www.deb-multimedia.org squeeze main non-free' >> /etc/apt/sources.list.d/multimedia.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch \
+	&& apt-get -y --quiet install deb-multimedia-keyring \
+	&& apt-get -y --quiet update \
+	&& apt-get -y --quiet install freeswitch libmp3lame0 lame \
 	freeswitch-mod-commands \
 	freeswitch-mod-conference \
 	freeswitch-mod-curl \
@@ -58,4 +61,4 @@ RUN apt-get -y --quiet update \
 
 VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts"]
 
-ENTRYPOINT ["/usr/bin/freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db", "-recordings", "/recordings", "-scripts", "/scripts"]
+ENTRYPOINT ["freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db", "-recordings", "/recordings", "-scripts", "/scripts"]
