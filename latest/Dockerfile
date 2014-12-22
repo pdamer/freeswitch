@@ -10,7 +10,7 @@ RUN apt-get -y --quiet update \
 	&& echo 'deb http://www.deb-multimedia.org squeeze main non-free' >> /etc/apt/sources.list.d/multimedia.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
-	&& apt-get -y --quiet install deb-multimedia-keyring \
+	&& apt-get -y --force-yes --quiet install deb-multimedia-keyring \
 	&& apt-get -y --quiet update \
 	&& apt-get -y --quiet install freeswitch libmp3lame0 lame \
 	freeswitch-mod-commands \
