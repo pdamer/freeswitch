@@ -7,7 +7,7 @@ RUN apt-get -y --quiet update \
 	&& apt-get -y --quiet upgrade \
 	&& apt-get -y --quiet install curl \
 	&& echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
-	&& echo 'deb http://www.deb-multimedia.org squeeze main non-free' >> /etc/apt/sources.list.d/multimedia.list \
+	&& echo 'deb http://www.deb-multimedia.org wheezy main non-free' >> /etc/apt/sources.list.d/multimedia.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
 	&& apt-get -y --force-yes --quiet install deb-multimedia-keyring \
