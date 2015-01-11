@@ -19,8 +19,6 @@ RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* 
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
-RUN mkdir /docker-entrypoint.d
-
 ENV FS_MAJOR 1.4
 ENV FS_VERSION 1.4.15
 
@@ -74,6 +72,8 @@ RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get purge -y --auto-remove curl
+
+RUN mkdir /docker-entrypoint.d /logs /certs /sounds /db /recordings /scripts /var/{run,lib}/freeswitch
 
 VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts", "/docker-entrypoint.d"]
 
