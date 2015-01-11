@@ -1,5 +1,9 @@
-FROM debian:wheezy 
+# vim:set ft=dockerfile:
+FROM debian:wheezy
 MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
+
+ENV FS_MAJOR 1.4
+ENV FS_VERSION 1.4.15
 
 COPY conf /conf
 
@@ -40,7 +44,8 @@ RUN apt-get -y --quiet update \
     freeswitch-mod-verto \
     freeswitch-timezones \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove curl
 
 VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf"]
 

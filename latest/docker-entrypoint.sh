@@ -2,7 +2,8 @@
 set -e
 
 if [ "$1" = 'freeswitch' ]; then
-	chown -R freeswitch:freeswitch /var/{log,lib}/freeswitch
+	chown -R freeswitch:freeswitch /var/{run,lib}/freeswitch
+	chown -R freeswitch:freeswitch /{log,scripts,recordings}
 	
 	if [ -d /docker-entrypoint.d ]; then
 		for f in /docker-entrypoint.d/*.sh; do
