@@ -1,4 +1,5 @@
-FROM debian:wheezy 
+# vim:set ft=dockerfile:
+FROM debian:wheezy
 MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
@@ -14,7 +15,7 @@ RUN apt-get update && apt-get -y --quiet upgrade && apt-get install -y curl && r
 	&& chmod +x /usr/local/bin/gosu
 
 # make the "en_US.UTF-8"
-RUN apt-get install -y locales tzdata && rm -rf /var/lib/apt/lists/* \
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
@@ -26,7 +27,7 @@ ENV FS_VERSION 1.4.15
 RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch \
+	&& apt-get -y --quiet install freeswitch tzdata \
 	freeswitch-mod-commands \
 	freeswitch-mod-conference \
 	freeswitch-mod-curl \
