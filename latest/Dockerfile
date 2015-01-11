@@ -1,18 +1,32 @@
 FROM debian:wheezy 
 MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
 
-COPY conf /conf
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+RUN groupadd -r freeswitch && useradd -r -g freeswitch freeswitch
 
-RUN apt-get -y --quiet update \
-	&& apt-get -y --quiet upgrade \
-	&& apt-get -y --quiet install curl \
-	&& echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
-	&& echo 'deb http://www.deb-multimedia.org wheezy main non-free' >> /etc/apt/sources.list.d/multimedia.list \
+# grab gosu for easy step-down from root
+RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+RUN apt-get update && apt-get -y --quiet upgrade && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
+	&& curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
+	&& curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
+	&& gpg --verify /usr/local/bin/gosu.asc \
+	&& rm /usr/local/bin/gosu.asc \
+	&& chmod +x /usr/local/bin/gosu
+
+# make the "en_US.UTF-8"
+RUN apt-get install -y locales tzdata && rm -rf /var/lib/apt/lists/* \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+RUN mkdir /docker-entrypoint.d
+
+ENV FS_MAJOR 1.4
+ENV FS_VERSION 1.4.15
+
+RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
 	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
 	&& apt-get -y --quiet update \
-	&& apt-get -y --force-yes --quiet install deb-multimedia-keyring \
-	&& apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch libmp3lame0 lame \
+	&& apt-get -y --quiet install freeswitch \
 	freeswitch-mod-commands \
 	freeswitch-mod-conference \
 	freeswitch-mod-curl \
@@ -57,8 +71,14 @@ RUN apt-get -y --quiet update \
 	freeswitch-mod-blacklist \
 	freeswitch-timezones \
 	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* \
+	&& apt-get purge -y --auto-remove curl
 
-VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts"]
+VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts", "/docker-entrypoint.d"]
 
-ENTRYPOINT ["freeswitch", "-c", "-rp", "-sounds", "/sounds", "-certs", "/certs", "-log", "/logs", "-conf", "/conf", "-db", "/db", "-recordings", "/recordings", "-scripts", "/scripts"]
+COPY conf /conf
+COPY docker-entrypoint.sh /
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["freeswitch"]
