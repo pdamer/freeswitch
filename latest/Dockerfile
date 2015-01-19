@@ -76,11 +76,11 @@ RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/
 
 RUN mkdir -p /docker-entrypoint.d /logs /certs /sounds /db /recordings /scripts /var/lib/freeswitch /var/run/freeswitch
 
-VOLUME ["/sounds", "/certs", "/logs", "/db", "/conf", "/recordings", "/scripts", "/docker-entrypoint.d"]
+VOLUME ["/sounds", "/certs", "/db", "/conf", "/recordings", "/scripts", "/docker-entrypoint.d"]
 
 COPY conf /conf
 COPY docker-entrypoint.sh /
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["freeswitch"]

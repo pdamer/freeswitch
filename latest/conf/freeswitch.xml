@@ -35,7 +35,7 @@
         <profile name="default">
           <settings>
             <param name="rollover" value="52428800" />
-            <param name="maximum-rotate" value="10" />
+            <param name="maximum-rotate" value="5" />
             <param name="uuid" value="true" />
           </settings>
           <mappings>
