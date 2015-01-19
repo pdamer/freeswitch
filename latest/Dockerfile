@@ -81,6 +81,6 @@ VOLUME ["/sounds", "/certs", "/db", "/conf", "/recordings", "/scripts", "/docker
 COPY conf /conf
 COPY docker-entrypoint.sh /
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["freeswitch"]
