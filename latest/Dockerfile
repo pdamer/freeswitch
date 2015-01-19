@@ -68,7 +68,7 @@ RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/
 	freeswitch-mod-callcenter \
 	freeswitch-mod-lcr \
 	freeswitch-mod-blacklist \
-	freeswitch-mod-graylog2 \
+	freeswitch-mod-logfile \
 	freeswitch-timezones \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
