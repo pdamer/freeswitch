@@ -6,15 +6,15 @@
   <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
   <X-PRE-PROCESS cmd="set" data="global_codec_prefs=OPUS,isac,PCMU,PCMA,GSM,VP8"/>
   <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=PCMU,PCMA,GSM"/>
-  <X-PRE-PROCESS cmd="set" data="webitel_url=http://$${local_ip_v4}:10025/"/>
+  <X-PRE-PROCESS cmd="set" data="webitel_url=http://webitel-app.bpmonline.com:10025/"/>
 
   <!-- various debug and defaults -->
   <X-PRE-PROCESS cmd="set" data="call_debug=false"/>
   <X-PRE-PROCESS cmd="set" data="console_loglevel=all"/>
 
   <X-PRE-PROCESS cmd="set" data="bind_server_ip=auto"/>
-  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=auto-nat"/>
-  <X-PRE-PROCESS cmd="set" data="external_sip_ip=auto-nat"/>
+  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=54.194.112.176"/>
+  <X-PRE-PROCESS cmd="set" data="external_sip_ip=54.194.112.176"/>
 
   <!-- SIP -->
   <X-PRE-PROCESS cmd="set" data="sip_tls_version=tlsv1,tlsv1.1,tlsv1.2"/>
