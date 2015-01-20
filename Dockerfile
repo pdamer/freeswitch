@@ -60,6 +60,8 @@ RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove curl
 
+RUN mkdir -p /docker-entrypoint.d /logs /certs /sounds /db /recordings /scripts /var/lib/freeswitch /var/run/freeswitch
+
 VOLUME ["/sounds", "/certs", "/db", "/conf", "/recordings", "/scripts", "/docker-entrypoint.d"]
 
 COPY conf /conf
