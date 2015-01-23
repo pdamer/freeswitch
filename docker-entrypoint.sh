@@ -42,7 +42,7 @@ if [ "$1" = 'freeswitch' ]; then
 	fi
 	
 	ulimit -s 240
-	exec gosu freeswitch /usr/bin/freeswitch -u freeswitch -g freeswitch -c \
+	exec gosu freeswitch freeswitch -u freeswitch -g freeswitch -c \
 		-sounds /sounds -recordings /recordings \
 		-certs /certs -conf /conf -db /db \
 		-scripts /scripts -log /logs

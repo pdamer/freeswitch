@@ -10,7 +10,15 @@
 
 - Current version is `1.4.15`
 
+### FreeSWITCH client
+
+For running only `fs_cli` container:
+
+	docker run -i -t --name=cli  webitel/freeswitch:cli bash
+	fs_cli -H 10.133.230.138
+
 ## Environment Variables
+
 The FreeSWITCH image uses several environment variables
 
 `CONF_SERVER`
@@ -32,13 +40,6 @@ This optional environment variable is used in sip profile for RTP. Default is `a
 `LOGLEVEL`
 
 This optional environment variable for FreeSWITCH log level. Default is `err`.
-
-### FreeSWITCH client
-
-For running only `fs_cli` container:
-
-	docker run -i -t --name=cli  webitel/freeswitch:cli bash
-	fs_cli -H 10.133.230.138
 
 ## Supported Docker versions
 
