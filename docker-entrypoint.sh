@@ -1,6 +1,30 @@
 #!/bin/bash
 set -e
 
+if [ "$CDR_SERVER" ]; then
+	sed -i 's/CDR_SERVER/'$CDR_SERVER'/g' /conf/vars.xml
+else
+	sed -i 's/CDR_SERVER/$${local_ip_v4}:10021/g' /conf/vars.xml
+fi
+
+if [ "$EXT_RTP_IP" ]; then
+	sed -i 's/EXT_RTP_IP/'$EXT_RTP_IP'/g' /conf/vars.xml
+else
+	sed -i 's/EXT_RTP_IP/auto-nat/g' /conf/vars.xml
+fi
+
+if [ "$EXT_SIP_IP" ]; then
+	sed -i 's/EXT_SIP_IP/'$EXT_SIP_IP'/g' /conf/vars.xml
+else
+	sed -i 's/EXT_SIP_IP/auto-nat/g' /conf/vars.xml
+fi
+
+if [ "$LOGLEVEL" ]; then
+	sed -i 's/LOGLEVEL/'$LOGLEVEL'/g' /conf/vars.xml
+else
+	sed -i 's/LOGLEVEL/err/g' /conf/vars.xml
+fi
+
 if [ "$1" = 'freeswitch' ]; then
 	chown -R freeswitch:freeswitch /var/{run,lib}/freeswitch
 	chown -R freeswitch:freeswitch /{logs,db,sounds,conf,certs,scripts,recordings}

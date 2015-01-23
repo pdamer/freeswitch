@@ -1,17 +1,20 @@
 <include>
 
   <X-PRE-PROCESS cmd="set" data="default_language=ru"/>
-  <X-PRE-PROCESS cmd="set" data="sound_prefix=$${sounds_dir}/ru/RU/elena"/>
   <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://default"/>
-  <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
+  <X-PRE-PROCESS cmd="set" data="sound_prefix=$${sounds_dir}/ru/RU/elena"/>
+
   <X-PRE-PROCESS cmd="set" data="global_codec_prefs=OPUS,isac,G722,PCMA,PCMU,GSM,VP8"/>
   <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=PCMA,PCMU,GSM"/>
-  <X-PRE-PROCESS cmd="set" data="webitel_url=http://$${local_ip_v4}:10025/"/>
+  
+  <X-PRE-PROCESS cmd="set" data="webitel_url=http://CDR_SERVER/"/>
+  <X-PRE-PROCESS cmd="set" data="console_loglevel=LOGLEVEL"/>
+  <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
   <X-PRE-PROCESS cmd="set" data="call_debug=false"/>
-
+ 
   <X-PRE-PROCESS cmd="set" data="bind_server_ip=auto"/>
-  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=auto-nat"/>
-  <X-PRE-PROCESS cmd="set" data="external_sip_ip=auto-nat"/>
+  <X-PRE-PROCESS cmd="set" data="external_rtp_ip=EXT_RTP_IP"/>
+  <X-PRE-PROCESS cmd="set" data="external_sip_ip=EXT_SIP_IP"/>
 
   <X-PRE-PROCESS cmd="set" data="sip_tls_version=tlsv1,tlsv1.1,tlsv1.2"/>
   <X-PRE-PROCESS cmd="set" data="sip_tls_ciphers=ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"/>

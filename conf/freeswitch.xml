@@ -7,7 +7,6 @@
     <configuration name="switch.conf" description="Core Configuration">
       <settings>
         <param name="switchname" value="webitel" />
-        <param name="core-db-dsn" value="pgsql://hostaddr=$${local_ip_v4} dbname=postgres user=postgres password=docker options='-c client_min_messages=NOTICE'" />
       </settings>
     </configuration>
     <configuration name="console.conf" description="Console Logger">
