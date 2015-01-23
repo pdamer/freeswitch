@@ -7,8 +7,9 @@
   <X-PRE-PROCESS cmd="set" data="global_codec_prefs=OPUS,isac,G722,PCMA,PCMU,GSM,VP8"/>
   <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=PCMA,PCMU,GSM"/>
   
-  <X-PRE-PROCESS cmd="set" data="webitel_url=http://CDR_SERVER/"/>
   <X-PRE-PROCESS cmd="set" data="console_loglevel=LOGLEVEL"/>
+  <X-PRE-PROCESS cmd="set" data="cdr_url=http://CDR_SERVER"/>
+  <X-PRE-PROCESS cmd="set" data="config_url=http://CONF_SERVER/"/>
   <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
   <X-PRE-PROCESS cmd="set" data="call_debug=false"/>
  

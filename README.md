@@ -6,9 +6,32 @@
 
 ## FreeSWITCH
 
-[FreeSWITCH](http://www.freeswitch.org/) with minimalistic configuration for Webitel.
+[FreeSWITCH](http://www.freeswitch.org/) with `mod_xml_curl` enabled by default.
 
 - Current version is `1.4.15`
+
+## Environment Variables
+The FreeSWITCH image uses several environment variables
+
+`CONF_SERVER`
+
+This environment variable used for HTTP server and port with XML configurations.
+
+`CDR_SERVER`
+
+This environment variable used for uploading call records.
+
+`EXT_SIP_IP`
+
+This optional environment variable is used in sip profile for SIP. Default is `auto-nat`.
+
+`EXT_RTP_IP`
+
+This optional environment variable is used in sip profile for RTP. Default is `auto-nat`.
+
+`LOGLEVEL`
+
+This optional environment variable for FreeSWITCH log level. Default is `err`.
 
 ### FreeSWITCH client
 

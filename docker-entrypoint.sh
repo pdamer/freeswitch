@@ -7,6 +7,12 @@ else
 	sed -i 's/CDR_SERVER/$${local_ip_v4}:10021/g' /conf/vars.xml
 fi
 
+if [ "$CONF_SERVER" ]; then
+	sed -i 's/CONF_SERVER/'$CONF_SERVER'/g' /conf/vars.xml
+else
+	sed -i 's/CONF_SERVER/$${local_ip_v4}:10024/g' /conf/vars.xml
+fi
+
 if [ "$EXT_RTP_IP" ]; then
 	sed -i 's/EXT_RTP_IP/'$EXT_RTP_IP'/g' /conf/vars.xml
 else
