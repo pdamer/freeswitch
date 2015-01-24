@@ -3,8 +3,7 @@
 ----
 
 uuid = session:getVariable("uuid");
-rD = session:getVariable("recordings_dir");
-session:setVariable("RECORD_MIN_SEC", "1");
+session:setVariable("RECORD_MIN_SEC", "3");
 session:setVariable("RECORD_STEREO", "true");
 session:setVariable("RECORD_BRIDGE_REQ", "true");
 --session:setVariable("media_bug_answer_req", "true");
