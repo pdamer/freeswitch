@@ -15,10 +15,14 @@ Dialplan works only with Webitel [Advanced Call Router
 
 ### FreeSWITCH client
 
-For running only `fs_cli` container:
+For running only `fs_cli` container from `cli` tag:
 
-	docker run -i -t --name=cli  webitel/freeswitch:cli bash
+	docker run -i -t --name=cli webitel/freeswitch:cli bash
 	fs_cli -H 10.133.230.138
+
+Or You can run from the `latest` tag:
+	
+	docker run -i -t --name=cli webitel/freeswitch:latest fs_cli -H 10.133.230.138
 
 ## Environment Variables
 
@@ -27,10 +31,6 @@ The FreeSWITCH image uses several environment variables
 `CONF_SERVER`
 
 This environment variable used for HTTP server and port with XML configurations.
-
-`ACR_SERVER`
-
-This environment variable used for connection to ACR with `socket` application. You must set IP:PORT.
 
 `CDR_SERVER`
 
@@ -47,6 +47,18 @@ This optional environment variable is used in sip profile for RTP. Default is `a
 `LOGLEVEL`
 
 This optional environment variable for FreeSWITCH log level. Default is `err`.
+
+`ACR_SERVER`
+
+This environment variable used for connection to ACR with FreeSWITCH `socket` application. You must set IP:PORT. 
+
+Used in the `ACR` XML Dialplan extension:
+
+	<extension name="ACR">
+		<condition>
+			<action application="socket" data="ACR_SERVER:10025 async full”/>
+		</condition>
+	</extension>
 
 ## Supported Docker versions
 
