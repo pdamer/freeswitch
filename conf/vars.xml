@@ -8,10 +8,10 @@
   <X-PRE-PROCESS cmd="set" data="outbound_codec_prefs=PCMA,PCMU,GSM"/>
   
   <X-PRE-PROCESS cmd="set" data="console_loglevel=LOGLEVEL"/>
+  <X-PRE-PROCESS cmd="set" data="acr_srv=ACR_SERVER async full"/>
   <X-PRE-PROCESS cmd="set" data="cdr_url=http://CDR_SERVER"/>
   <X-PRE-PROCESS cmd="set" data="config_url=http://CONF_SERVER/"/>
   <X-PRE-PROCESS cmd="set" data="zrtp_secure_media=true"/>
-  <X-PRE-PROCESS cmd="set" data="call_debug=false"/>
  
   <X-PRE-PROCESS cmd="set" data="bind_server_ip=auto"/>
   <X-PRE-PROCESS cmd="set" data="external_rtp_ip=EXT_RTP_IP"/>

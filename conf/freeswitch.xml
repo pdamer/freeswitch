@@ -49,20 +49,18 @@
         </profile>
       </profiles>
     </configuration>
+
     <configuration name="xml_curl.conf" description="cURL XML Gateway">
       <bindings>
         <binding name="Directory">
           <param name="gateway-url" value="$${config_url}" bindings="directory" />
         </binding>
-        <binding name="Dialplan">
-          <param name="gateway-url" value="$${config_url}" bindings="dialplan" />
-        </binding>
         <binding name="Configuration">
           <param name="gateway-url" value="$${config_url}" bindings="configuration" />
         </binding>
         <binding name="Phrases">
-        <param name="gateway-url" value="${config_url}" bindings="phrases" />
-   	</binding>
+       	 <param name="gateway-url" value="${config_url}" bindings="phrases" />
+   		</binding>
       </bindings>
 	</configuration>
 	
@@ -122,7 +120,6 @@
 	<zone name="Africa/Tripoli" value="EET-2" />
 	<zone name="Africa/Tunis" value="CET-1" />
 	<zone name="Africa/Windhoek" value="WAT-1WAST,M9.1.0,M4.1.0" />
-
 	<zone name="America/Adak" value="HAST10HADT,M3.2.0,M11.1.0" />
 	<zone name="America/Anchorage" value="AKST9AKDT,M3.2.0,M11.1.0" />
 	<zone name="America/Anguilla" value="AST4" />
@@ -501,7 +498,6 @@
 	<zone name="Etc/UTC" value="UTC0" />
 	<zone name="Etc/Universal" value="UTC0" />
 	<zone name="Etc/Zulu" value="UTC0" />
-
 	<zone name="Europe/Amsterdam" value="CET-1CEST,M3.5.0,M10.5.0/3" />
 	<zone name="Europe/Andorra" value="CET-1CEST,M3.5.0,M10.5.0/3" />
 	<zone name="Europe/Athens" value="EET-2EEST,M3.5.0/3,M10.5.0/4" />
@@ -1917,4 +1913,86 @@
     </timezones>
     </configuration>
   </section>
+
+  <!-- DIALPLAN -->
+  <section name="dialplan" description="Regex/XML Dialplan">
+
+<context name="default">
+
+    <extension name="unloop">
+      <condition field="${unroll_loops}" expression="^true$"/>
+      <condition field="${sip_looped_call}" expression="^true$">
+	       <action application="deflect" data="${destination_number}"/>
+      </condition>
+    </extension>
+
+   <extension name="domain_name" continue="true">
+      <condition field="${user_exists(id ${caller_id_number} ${w_domain})}" expression="true">
+        <action application="set" data="webitel_direction=outbound"/>
+        <action inline="true" application="set" data="domain_name=${w_domain}" />
+      </condition>
+    </extension>
+
+      <condition>
+	    <action application="hash" data="insert/${domain_name}-spymap/${caller_id_number}/${uuid}"/>
+	    <action application="hash" data="insert/${domain_name}-last_dial/${caller_id_number}/${destination_number}"/>
+	    <action application="hash" data="insert/${domain_name}-last_dial/global/${uuid}"/>
+	    <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
+	    <action application="export" data="rtp_secure_media=false"/>
+        <action application="set" data="ringback=$${us-ring}"/>
+        <action application="set" data="transfer_ringback=$${uk-ring}"/>
+      </condition>
+    </extension>
+
+    <extension name="Echo Test">
+      <condition field="destination_number" expression="^(0)$">
+         <action application="answer"/>
+        <action application="sleep" data="1500" />
+        <action application="playback" data="ivr/ivr-provision_phone_permanently_to_extension.wav"/>
+        <action application="echo"/>
+      </condition>
+    </extension>
+
+    <extension name="cdquality_conferences">
+      <condition field="destination_number" expression="^(00)$">
+         <action application="answer"/>
+         <action application="conference" data="${domain_name}@cdquality"/>
+      </condition>
+    </extension>
+
+    <extension name="ACR">
+      <condition>
+         <action application="socket" data="$${acr_srv}"/>
+      </condition>
+    </extension>
+
+  </context>
+
+  <context name="public">
+
+    <extension name="unloop">
+      <condition field="${unroll_loops}" expression="^true$"/>
+      <condition field="${sip_looped_call}" expression="^true$">
+        <action application="deflect" data="${destination_number}"/>
+      </condition>
+    </extension>
+
+    <extension name="outside_call" continue="true">
+      <condition>
+        <action application="set" data="outside_call=true"/>
+        <action application="set" data="webitel_direction=inbound"/>
+        <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
+      </condition>
+    </extension>
+
+    <extension name="ACR">
+      <condition>
+         <action application="socket" data="$${acr_srv}"/>
+      </condition>
+    </extension>
+
+  </context>
+
+ </section>
+
 </document>

@@ -8,6 +8,9 @@
 
 [FreeSWITCH](http://www.freeswitch.org/) with `mod_xml_curl` enabled by default.
 
+Dialplan works only with Webitel [Advanced Call Router
+](https://github.com/webitel/acr)
+
 - Current version is `1.4.15`
 
 ### FreeSWITCH client
@@ -24,6 +27,10 @@ The FreeSWITCH image uses several environment variables
 `CONF_SERVER`
 
 This environment variable used for HTTP server and port with XML configurations.
+
+`ACR_SERVER`
+
+This environment variable used for connection to ACR with `socket` application. You need to set IP:PORT.
 
 `CDR_SERVER`
 
@@ -43,7 +50,7 @@ This optional environment variable for FreeSWITCH log level. Default is `err`.
 
 ## Supported Docker versions
 
-This image is officially supported on Docker version `1.3.2` and newest.
+This image is officially supported on Docker version `1.4.1` and newest.
 
 ## User Feedback
 
