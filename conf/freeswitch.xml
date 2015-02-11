@@ -2,6 +2,89 @@
 <document type="freeswitch/xml">
   <X-PRE-PROCESS cmd="include" data="vars.xml" />
 
+
+  <!-- DIALPLAN -->
+  <section name="dialplan" description="Regex/XML Dialplan">
+
+<context name="default">
+
+    <extension name="unloop">
+      <condition field="${unroll_loops}" expression="^true$"/>
+      <condition field="${sip_looped_call}" expression="^true$">
+	       <action application="deflect" data="${destination_number}"/>
+      </condition>
+    </extension>
+
+   <extension name="domain_name" continue="true">
+      <condition field="${user_exists(id ${caller_id_number} ${w_domain})}" expression="true">
+        <action application="set" data="webitel_direction=outbound"/>
+        <action inline="true" application="set" data="domain_name=${w_domain}" />
+      </condition>
+    </extension>
+
+     <extension name="set_variables" continue="true">
+      <condition>
+	    <action application="hash" data="insert/${domain_name}-spymap/${caller_id_number}/${uuid}"/>
+	    <action application="hash" data="insert/${domain_name}-last_dial/${caller_id_number}/${destination_number}"/>
+	    <action application="hash" data="insert/${domain_name}-last_dial/global/${uuid}"/>
+	    <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
+	    <action application="export" data="rtp_secure_media=false"/>
+        <action application="set" data="ringback=$${us-ring}"/>
+        <action application="set" data="transfer_ringback=$${uk-ring}"/>
+      </condition>
+    </extension>
+
+    <extension name="Echo Test">
+      <condition field="destination_number" expression="^(0)$">
+         <action application="answer"/>
+        <action application="sleep" data="1500" />
+        <action application="playback" data="ivr/ivr-provision_phone_permanently_to_extension.wav"/>
+        <action application="echo"/>
+      </condition>
+    </extension>
+
+    <extension name="cdquality_conferences">
+      <condition field="destination_number" expression="^(00)$">
+         <action application="answer"/>
+         <action application="conference" data="${domain_name}@cdquality"/>
+      </condition>
+    </extension>
+
+    <extension name="ACR">
+      <condition>
+         <action application="socket" data="$${acr_srv}"/>
+      </condition>
+    </extension>
+
+  </context>
+
+  <context name="public">
+
+    <extension name="unloop">
+      <condition field="${unroll_loops}" expression="^true$"/>
+      <condition field="${sip_looped_call}" expression="^true$">
+        <action application="deflect" data="${destination_number}"/>
+      </condition>
+    </extension>
+
+    <extension name="outside_call" continue="true">
+      <condition>
+        <action application="set" data="outside_call=true"/>
+        <action application="set" data="webitel_direction=inbound"/>
+        <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
+      </condition>
+    </extension>
+
+    <extension name="ACR">
+      <condition>
+         <action application="socket" data="$${acr_srv}"/>
+      </condition>
+    </extension>
+
+  </context>
+
+ </section>
+
   <!-- CONFIGURATIONS -->
   <section name="configuration" description="Webitel FreeSWITCH Configurations">
     <configuration name="modules.conf" description="Modules">
@@ -58,9 +141,6 @@
         <binding name="Configuration">
           <param name="gateway-url" value="$${config_url}" bindings="configuration" />
         </binding>
-        <binding name="Phrases">
-       	 <param name="gateway-url" value="${config_url}" bindings="phrases" />
-   		</binding>
       </bindings>
 	</configuration>
 	
@@ -1913,87 +1993,5 @@
     </timezones>
     </configuration>
   </section>
-
-  <!-- DIALPLAN -->
-  <section name="dialplan" description="Regex/XML Dialplan">
-
-<context name="default">
-
-    <extension name="unloop">
-      <condition field="${unroll_loops}" expression="^true$"/>
-      <condition field="${sip_looped_call}" expression="^true$">
-	       <action application="deflect" data="${destination_number}"/>
-      </condition>
-    </extension>
-
-   <extension name="domain_name" continue="true">
-      <condition field="${user_exists(id ${caller_id_number} ${w_domain})}" expression="true">
-        <action application="set" data="webitel_direction=outbound"/>
-        <action inline="true" application="set" data="domain_name=${w_domain}" />
-      </condition>
-    </extension>
-
-     <extension name="set_variables" continue="true">
-      <condition>
-	    <action application="hash" data="insert/${domain_name}-spymap/${caller_id_number}/${uuid}"/>
-	    <action application="hash" data="insert/${domain_name}-last_dial/${caller_id_number}/${destination_number}"/>
-	    <action application="hash" data="insert/${domain_name}-last_dial/global/${uuid}"/>
-	    <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
-	    <action application="export" data="rtp_secure_media=false"/>
-        <action application="set" data="ringback=$${us-ring}"/>
-        <action application="set" data="transfer_ringback=$${uk-ring}"/>
-      </condition>
-    </extension>
-
-    <extension name="Echo Test">
-      <condition field="destination_number" expression="^(0)$">
-         <action application="answer"/>
-        <action application="sleep" data="1500" />
-        <action application="playback" data="ivr/ivr-provision_phone_permanently_to_extension.wav"/>
-        <action application="echo"/>
-      </condition>
-    </extension>
-
-    <extension name="cdquality_conferences">
-      <condition field="destination_number" expression="^(00)$">
-         <action application="answer"/>
-         <action application="conference" data="${domain_name}@cdquality"/>
-      </condition>
-    </extension>
-
-    <extension name="ACR">
-      <condition>
-         <action application="socket" data="$${acr_srv}"/>
-      </condition>
-    </extension>
-
-  </context>
-
-  <context name="public">
-
-    <extension name="unloop">
-      <condition field="${unroll_loops}" expression="^true$"/>
-      <condition field="${sip_looped_call}" expression="^true$">
-        <action application="deflect" data="${destination_number}"/>
-      </condition>
-    </extension>
-
-    <extension name="outside_call" continue="true">
-      <condition>
-        <action application="set" data="outside_call=true"/>
-        <action application="set" data="webitel_direction=inbound"/>
-        <action application="export" data="RFC2822_DATE=${strftime(%a, %d %b %Y %T %z)}"/>
-      </condition>
-    </extension>
-
-    <extension name="ACR">
-      <condition>
-         <action application="socket" data="$${acr_srv}"/>
-      </condition>
-    </extension>
-
-  </context>
-
- </section>
 
 </document>
