@@ -1933,6 +1933,7 @@
       </condition>
     </extension>
 
+     <extension name="set_variables" continue="true">
       <condition>
 	    <action application="hash" data="insert/${domain_name}-spymap/${caller_id_number}/${uuid}"/>
 	    <action application="hash" data="insert/${domain_name}-last_dial/${caller_id_number}/${destination_number}"/>

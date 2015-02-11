@@ -30,7 +30,7 @@ This environment variable used for HTTP server and port with XML configurations.
 
 `ACR_SERVER`
 
-This environment variable used for connection to ACR with `socket` application. You need to set IP:PORT.
+This environment variable used for connection to ACR with `socket` application. You must set IP:PORT.
 
 `CDR_SERVER`
 
