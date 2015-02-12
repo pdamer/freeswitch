@@ -3,6 +3,7 @@
 ----
 
 uuid = argv[1];
+domain = argv[2];
 
 api = freeswitch.API();
 freeswitch.msleep(2000);
@@ -24,7 +25,7 @@ function file_exists(name)
 end
 
 if (file_exists(rec_file..".mp3") ) then
-	r = api:executeString("http_put "..cdr_url.."/sys/formLoadFile?"..uuid.." "..rec_file..".mp3");
+	r = api:executeString("http_put "..cdr_url.."/sys/formLoadFile?domain="..domain.."&id="..uuid.."&type=mp3 "..rec_file..".mp3");
 	freeswitch.consoleLog("debug", "[RecordUpload.lua]: "..r);
 	if (r:gsub("%s*$", "") == '+OK') then
 		del = "/bin/rm -rf "..rec_file..".mp3";
