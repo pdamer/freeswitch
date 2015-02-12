@@ -11,4 +11,4 @@ session:setVariable("RECORD_BRIDGE_REQ", "true");
 session:setVariable("record_post_process_exec_api", "luarun:RecordUpload.lua "..uuid.." "..domain);
 -- START RECORD
 session:execute("record_session", "/recordings/" ..uuid.. ".mp3");
-freeswitch.consoleLog("info", "[RecordSession.lua]: Session record started at "..uuid.." for .."..domain.."\n");
+freeswitch.consoleLog("info", "[RecordSession.lua]: Session record started at "..uuid.." for "..domain.."\n");
