@@ -24,7 +24,7 @@ function file_exists(name)
 end
 
 if (file_exists(rec_file..".mp3") ) then
-	r = api:executeString("http_put "..cdr_url.."/api/formLoadFile/"..uuid.."/mp3 "..rec_file..".mp3");
+	r = api:executeString("http_put "..cdr_url.."/sys/formLoadFile?"..uuid.." "..rec_file..".mp3");
 	freeswitch.consoleLog("debug", "[RecordUpload.lua]: "..r);
 	if (r:gsub("%s*$", "") == '+OK') then
 		del = "/bin/rm -rf "..rec_file..".mp3";
