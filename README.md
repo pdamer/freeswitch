@@ -1,6 +1,6 @@
 ## Supported tags and respective Dockerfile links
 
--	`cli` ([Dockerfile](https://github.com/webitel/freeswitch/blob/cli/Dockerfile))
+- `cli` ([Dockerfile](https://github.com/webitel/freeswitch/blob/cli/Dockerfile))
 - `latest` ([Dockerfile](https://github.com/webitel/freeswitch/blob/master/Dockerfile))
 - `collaboration` ([Dockerfile](https://github.com/webitel/freeswitch/blob/collaboration/Dockerfile))
 
@@ -62,7 +62,7 @@ Used in the `ACR` XML Dialplan extension:
 
 ## Supported Docker versions
 
-This image is officially supported on Docker version `1.4.1` and newest.
+This image is officially supported on Docker version `1.5` and newest.
 
 ## User Feedback
 
