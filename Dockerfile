@@ -69,7 +69,7 @@ COPY docker-entrypoint.sh /
 
 ## mod_verto NAT
 ## v1.5 (2015.02.19)
-ADD http://dev.it-sfera.com.ua/fs.tar.gz /usr/local/freeswitch
+ADD http://dev.it-sfera.com.ua/freeswitch /usr/local/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
