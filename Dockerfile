@@ -67,6 +67,10 @@ VOLUME ["/sounds", "/certs", "/db", "/conf", "/recordings", "/scripts", "/docker
 COPY conf /conf
 COPY docker-entrypoint.sh /
 
+## mod_verto NAT
+## v1.5 (2015.02.19)
+ADD http://dev.it-sfera.com.ua/fs.tar.gz /usr/local/freeswitch
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["freeswitch"]
