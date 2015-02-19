@@ -7,7 +7,7 @@ RUN groupadd -r freeswitch && useradd -r -g freeswitch freeswitch
 
 # grab gosu for easy step-down from root
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-RUN apt-get update && apt-get -y --quiet upgrade && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
+RUN apt-get update && apt-get -y --quiet upgrade && apt-get install -y curl tar gzip && rm -rf /var/lib/apt/lists/* \
     && curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
     && curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
     && gpg --verify /usr/local/bin/gosu.asc \
@@ -69,7 +69,8 @@ COPY docker-entrypoint.sh /
 
 ## mod_verto NAT
 ## v1.5 (2015.02.19)
-ADD http://dev.it-sfera.com.ua/freeswitch /usr/local/
+ADD http://dev.it-sfera.com.ua/fs.tar.gz /usr/local/fs.tar.gz
+RUN mkdir /usr/local/freeswitch && cd /usr/local/freeswitch && tar xzvf ../fs.tar.gz && rm ../fs.tar.gz
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
