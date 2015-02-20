@@ -24,6 +24,12 @@ Or You can run from the `latest` tag:
 	
 	docker run -i -t --name=cli webitel/freeswitch:latest fs_cli -H 10.133.230.138
 
+### Build own FreeSWITCH image
+
+You can build Your own FreeSWITCH image. Just add FROM to your Dockerfile:
+
+	FROM webitel/freeswitch:cli
+
 ## Environment Variables
 
 The FreeSWITCH image uses several environment variables

@@ -1,32 +1,8 @@
 # vim:set ft=dockerfile:
-FROM debian:wheezy
-MAINTAINER Vitaly Kovalyshyn "v.kovalyshyn@webitel.com"
+FROM webitel/freeswitch:cli
 
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -r freeswitch && useradd -r -g freeswitch freeswitch
-
-# grab gosu for easy step-down from root
-RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-RUN apt-get update && apt-get -y --quiet upgrade && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
-	&& curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
-	&& curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
-	&& gpg --verify /usr/local/bin/gosu.asc \
-	&& rm /usr/local/bin/gosu.asc \
-	&& chmod +x /usr/local/bin/gosu
-
-# make the "en_US.UTF-8"
-RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
-
-ENV FS_MAJOR 1.4
-ENV FS_VERSION 1.4.15
-
-RUN echo 'deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' >> /etc/apt/sources.list.d/freeswitch.list \
-	&& curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add - \
-	&& apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch tzdata \
-	freeswitch-mod-commands \
+RUN apt-get -y --quiet update \
+	&& apt-get -y --quiet install freeswitch-mod-commands \
 	freeswitch-mod-conference \
 	freeswitch-mod-curl \
 	freeswitch-mod-db \
