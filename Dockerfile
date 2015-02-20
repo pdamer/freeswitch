@@ -47,8 +47,7 @@ RUN apt-get -y --quiet update \
 	freeswitch-mod-logfile \
 	freeswitch-timezones \
 	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& apt-get purge -y --auto-remove curl
+	&& rm -rf /var/lib/apt/lists/* 
 
 COPY conf /conf
 COPY scripts /scripts
