@@ -2,7 +2,7 @@
 
 - `cli` ([Dockerfile](https://github.com/webitel/freeswitch/blob/cli/Dockerfile))
 - `latest` ([Dockerfile](https://github.com/webitel/freeswitch/blob/master/Dockerfile))
-- `collaboration` ([Dockerfile](https://github.com/webitel/freeswitch/blob/collaboration/Dockerfile))
+- `onbuild` ([Dockerfile](https://github.com/webitel/freeswitch/blob/onbuild/Dockerfile))
 
 ## FreeSWITCH
 
@@ -29,6 +29,19 @@ Or You can run from the `latest` tag:
 You can build Your own FreeSWITCH image. Just add FROM to your Dockerfile:
 
 	FROM webitel/freeswitch:cli
+
+### Build modules for FreeSWITCH
+
+You can build additional module for FreeSWITCH with onbuild image tag. Dockerfile for `mod_bcg729`:
+
+	FROM webitel/freeswitch:onbuild
+	
+	RUN git clone https://github.com/xadhoom/mod_bcg729.git \
+        && cd mod_bcg729 \
+        && sed -i ’s/opt\/freeswitch\/include/usr\/include/g’ Makefile \
+        && sed -i ’s/opt\/freeswitch\/mod/usr\/lib\/freeswitch\/mod/g’ Makefile \
+        && mkdir -p /usr/lib/freeswitch/mod \
+        && make && make install
 
 ## Environment Variables
 
