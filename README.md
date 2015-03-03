@@ -17,8 +17,7 @@ Dialplan works only with Webitel [Advanced Call Router
 
 For running only `fs_cli` container from `cli` tag:
 
-	docker run -i -t --name=cli webitel/freeswitch:cli bash
-	fs_cli -H 10.133.230.138
+	docker run -i -t --name=cli webitel/freeswitch:cli fs_cli -H 10.133.230.138
 
 Or You can run from the `latest` tag:
 	
@@ -38,8 +37,8 @@ You can build additional module for FreeSWITCH with onbuild image tag. Dockerfil
 	
 	RUN git clone https://github.com/xadhoom/mod_bcg729.git \
         && cd mod_bcg729 \
-        && sed -i ’s/opt\/freeswitch\/include/usr\/include/g’ Makefile \
-        && sed -i ’s/opt\/freeswitch\/mod/usr\/lib\/freeswitch\/mod/g’ Makefile \
+        && sed -i 's/opt\/freeswitch\/include/usr\/include/g' Makefile \
+        && sed -i 's/opt\/freeswitch\/mod/usr\/lib\/freeswitch\/mod/g' Makefile \
         && mkdir -p /usr/lib/freeswitch/mod \
         && make && make install
 
