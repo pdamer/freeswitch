@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM webitel/freeswitch:cli
+FROM webitel/freeswitch-base
 
 RUN apt-get -y --quiet update \
 	&& apt-get -y --quiet install freeswitch-mod-commands \
@@ -55,7 +55,7 @@ COPY docker-entrypoint.sh /
 
 RUN mkdir -p /docker-entrypoint.d /logs /certs /sounds /db /recordings /scripts/lua /var/lib/freeswitch /var/run/freeswitch
 
-VOLUME ["/sounds", "/certs", "/db", "/recordings", "/scripts/lua", "/docker-entrypoint.d"]
+VOLUME ["/sounds", "/certs", "/db", "/recordings", "/scripts/lua"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
