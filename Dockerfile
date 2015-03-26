@@ -3,7 +3,8 @@ FROM webitel/freeswitch-base
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch-mod-commands \
+	&& apt-get -y --quiet install freeswitch \
+	freeswitch-mod-commands \
 	freeswitch-mod-conference \
 	freeswitch-mod-curl \
 	freeswitch-mod-db \
