@@ -1,6 +1,6 @@
 ## FreeSWITCH
 
-[FreeSWITCH](http://www.freeswitch.org/) - FREE Multi-Protocol Soft Switch.
+[FreeSWITCH](http://www.freeswitch.org/) - FREE Multi-Protocol Soft Switch `1.4.18`.
 
 Works only with [Webitel](http://webitel.ua/) [Advanced Call Router](https://github.com/webitel/acr)
 
