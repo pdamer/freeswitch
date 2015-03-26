@@ -1,6 +1,7 @@
 # vim:set ft=dockerfile:
 FROM webitel/freeswitch-base
 
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y --quiet update \
 	&& apt-get -y --quiet install freeswitch-mod-commands \
 	freeswitch-mod-conference \
