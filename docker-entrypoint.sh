@@ -1,57 +1,61 @@
 #!/bin/bash
 set -e
 
-if [ "$CDR_SERVER" ]; then
-	sed -i 's/CDR_SERVER/'$CDR_SERVER'/g' /conf/vars.xml
-else
-	sed -i 's/CDR_SERVER/$${local_ip_v4}:10021/g' /conf/vars.xml
-fi
+printf 'Determining internal_ip value...\n'
 
-if [ "$CONF_SERVER" ]; then
-	sed -i 's/CONF_SERVER/'$CONF_SERVER'/g' /conf/vars.xml
-else
-	sed -i 's/CONF_SERVER/$${local_ip_v4}:10024/g' /conf/vars.xml
-fi
+INTERNAL_IP='192.168.99.103'
+#ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep '192'
 
-if [ "$ACR_SERVER" ]; then
-	sed -i 's/ACR_SERVER/'$ACR_SERVER'/g' /conf/vars.xml
-else
-	sed -i 's/ACR_SERVER/$${local_ip_v4}:10030/g' /conf/vars.xml
-fi
+  EXT_RTP_IP=$INTERNAL_IP
+  EXT_SIP_IP=$INTERNAL_IP
+  DOMAIN_IP=$INTERNAL_IP
+  BIND_SERVER_IP='192.168.99.103'
+  RAYO_IP=$INTERNAL_IP
+  RAYO_DOMAIN_IP='192.168.99.1'
 
 if [ "$EXT_RTP_IP" ]; then
-	sed -i 's/EXT_RTP_IP/'$EXT_RTP_IP'/g' /conf/vars.xml
+  sed -i 's/EXT_RTP_IP/'$EXT_RTP_IP'/g' /usr/local/freeswitch/conf/vars.xml
 else
-	sed -i 's/EXT_RTP_IP/auto-nat/g' /conf/vars.xml
+  sed -i 's/EXT_RTP_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
 fi
 
 if [ "$EXT_SIP_IP" ]; then
-	sed -i 's/EXT_SIP_IP/'$EXT_SIP_IP'/g' /conf/vars.xml
+  sed -i 's/EXT_SIP_IP/'$EXT_SIP_IP'/g' /usr/local/freeswitch/conf/vars.xml
 else
-	sed -i 's/EXT_SIP_IP/auto-nat/g' /conf/vars.xml
+  sed -i 's/EXT_SIP_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
 fi
 
-if [ "$LOGLEVEL" ]; then
-	sed -i 's/LOGLEVEL/'$LOGLEVEL'/g' /conf/vars.xml
+if [ "$DOMAIN_IP" ]; then
+  sed -i 's/DOMAIN_IP/'$DOMAIN_IP'/g' /usr/local/freeswitch/conf/vars.xml
 else
-	sed -i 's/LOGLEVEL/err/g' /conf/vars.xml
+  sed -i 's/DOMAIN_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
 fi
+
+if [ "$BIND_SERVER_IP" ]; then
+  sed -i 's/BIND_SERVER_IP/'$BIND_SERVER_IP'/g' /usr/local/freeswitch/conf/vars.xml
+else
+  sed -i 's/BIND_SERVER_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
+fi
+
+if [ "$RAYO_IP" ]; then
+  sed -i 's/RAYO_IP/'$RAYO_IP'/g' /usr/local/freeswitch/conf/vars.xml
+else
+  sed -i 's/RAYO_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
+fi
+
+if [ "$RAYO_DOMAIN_IP" ]; then
+  sed -i 's/RAYO_DOMAIN_IP/'$RAYO_DOMAIN_IP'/g' /usr/local/freeswitch/conf/vars.xml
+else
+  sed -i 's/RAYO_DOMAIN_IP/auto-nat/g' /usr/local/freeswitch/conf/vars.xml
+fi
+
+
+
+
+printf "internal_ip = ${INTERNAL_IP}\n"
 
 if [ "$1" = 'freeswitch' ]; then
-	chown -R freeswitch:freeswitch /var/{run,lib}/freeswitch
-	chown -R freeswitch:freeswitch /{logs,db,sounds,conf,certs,scripts,recordings}
-	
-	if [ -d /docker-entrypoint.d ]; then
-		for f in /docker-entrypoint.d/*.sh; do
-			[ -f "$f" ] && . "$f"
-		done
-	fi
-	
-	ulimit -s 240
-	exec gosu freeswitch freeswitch -u freeswitch -g freeswitch -c \
-		-sounds /sounds -recordings /recordings \
-		-certs /certs -conf /conf -db /db \
-		-scripts /scripts -log /logs
+  exec /usr/local/freeswitch/bin/freeswitch
 fi
 
 exec "$@"

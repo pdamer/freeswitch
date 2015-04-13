@@ -1,64 +1,44 @@
-# vim:set ft=dockerfile:
-FROM webitel/freeswitch-base
+FROM ubuntu:latest
+MAINTAINER Paul Damer "pdamer@gmail.com"
 
-ENV DEBIAN_FRONTEND noninteractive
+
+ENV LANG en_US.utf8
+
 RUN apt-get -y --quiet update \
-	&& apt-get -y --quiet install freeswitch \
-	freeswitch-mod-commands \
-	freeswitch-mod-conference \
-	freeswitch-mod-curl \
-	freeswitch-mod-db \
-	freeswitch-mod-dialplan-xml \
-	freeswitch-mod-xml-cdr \
-	freeswitch-mod-xml-curl \
-	freeswitch-mod-cdr-mongodb \
-	freeswitch-mod-event-socket \
-	freeswitch-mod-event-multicast \
-	freeswitch-mod-event-zmq \
-	freeswitch-mod-hash \
-	freeswitch-mod-http-cache \
-	freeswitch-mod-local-stream \
-	freeswitch-mod-native-file \
-	freeswitch-mod-shout \
-	freeswitch-mod-shell-stream \
-	freeswitch-mod-lua \
-	freeswitch-mod-console \
-	freeswitch-mod-say-ru \
-	freeswitch-mod-say-en \
-	freeswitch-mod-sms \
-	freeswitch-mod-sndfile \
-	freeswitch-mod-spandsp \
-	freeswitch-mod-tone-stream \
-	freeswitch-mod-h26x \
-	freeswitch-mod-vp8 \
-	freeswitch-mod-opus \
-	freeswitch-mod-isac \
-	freeswitch-mod-dptools \
-	freeswitch-mod-expr \
-	freeswitch-mod-sofia \
-	freeswitch-mod-rtmp \
-	freeswitch-mod-rtc \
-	freeswitch-mod-verto \
-	freeswitch-mod-valet-parking \
-	freeswitch-mod-spy \
-	freeswitch-mod-voicemail \
-	freeswitch-mod-fifo \
-	freeswitch-mod-callcenter \
-	freeswitch-mod-lcr \
-	freeswitch-mod-blacklist \
-	freeswitch-mod-logfile \
-	freeswitch-timezones \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* 
+	&& apt-get -y --quiet install \
+  make curl wget adduser autoconf automake devscripts gawk g++ git-core ca-certificates \
+        libjpeg-dev libncurses5-dev libtool make python-dev gawk pkg-config \
+        libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev \
+        libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev \
+        libsqlite3-dev libedit-dev libldns-dev libpq-dev
 
-COPY conf /conf
-COPY scripts /scripts
+
+RUN cd /usr/src \
+    && git clone -b v1.4 https://freeswitch.org/stash/scm/fs/freeswitch.git freeswitch
+
+WORKDIR /usr/src/freeswitch
+
+RUN ./bootstrap.sh -j
+
+ADD ./modules.conf /usr/src/freeswitch/modules.conf
+
+RUN ./configure
+RUN make && make install \
+&& adduser --disabled-password --quiet --system --home /usr/local/freeswitch --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch \
+    && chown -R freeswitch:daemon /usr/local/freeswitch/ \
+    && chmod -R ug=rwX,o= /usr/local/freeswitch/ \
+    && chmod -R u=rwx,g=rx /usr/local/freeswitch/bin/* \
+    && ln /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli
+
+
+RUN rm -R /usr/src/freeswitch/ \
+    && apt-get clean && rm -rf /tmp/* /var/tmp/* && rm -rf /var/lib/apt/lists/*
+
+COPY conf /usr/local/freeswitch/conf
 COPY docker-entrypoint.sh /
 
-RUN mkdir -p /docker-entrypoint.d /logs /certs /sounds /db /recordings /scripts/lua /var/lib/freeswitch /var/run/freeswitch
-
-VOLUME ["/sounds", "/certs", "/db", "/recordings", "/scripts/lua"]
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+EXPOSE 5222/tcp 5060/tcp 5061/tcp 5080/tcp 5081/tcp 16384-16394/udp
 
 CMD ["freeswitch"]
